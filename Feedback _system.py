@@ -17,9 +17,11 @@ def center_window(app, width, height):
 def create_boxes():
     app = customtkinter.CTk()
     app.title("Feedback Form")
+
     def save_feedback():
+        warning.configure(text="")
         if full_name_entry.get() == "":
-            messagebox.showwarning("Incomplete Form", "Name field is mandatory. Please fill it.")
+            warning.configure(text="Incomplete Form , Name field is mandatory. Please fill it.",text_color="red")
         else:
             full_name = full_name_entry.get()
             email_id = email_entry.get()
@@ -35,7 +37,7 @@ def create_boxes():
                 
             except FileNotFoundError:
                 df.to_excel('feedback_data.xlsx', index=False, sheet_name='FeedbackData', engine='openpyxl')
-            messagebox.showinfo("Submitted", "Thank you for your valuable feedback !")
+            warning.configure(text="Submitted , Thank you for your valuable feedback !",text_color="green")
         full_name_entry.delete(0, tk.END)
         email_entry.delete(0, tk.END)
         age_entry.delete(0, tk.END)
@@ -46,6 +48,8 @@ def create_boxes():
     customtkinter.CTkLabel(app, text="Email ID:").grid(row=2, column=0, sticky=tk.W, padx=50, pady=5)
     customtkinter.CTkLabel(app, text="Age:").grid(row=3, column=0, sticky=tk.W, padx=50, pady=5)
     customtkinter.CTkLabel(app, text="Feedback:").grid(row=3, column=2, sticky=tk.W, padx=10, pady=5)
+    warning = customtkinter.CTkLabel(app, text="")
+    warning.grid(row=5, column=1, columnspan=3, sticky=tk.W, padx=10, pady=5)
 
     full_name_entry = customtkinter.CTkEntry(app,width=350)
     full_name_entry.grid(row=1, column=1, padx=10, pady=5,columnspan=3)
