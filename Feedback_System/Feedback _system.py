@@ -1,9 +1,9 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import PhotoImage
 import pandas as pd
 from openpyxl import load_workbook
 import customtkinter
-
+from PIL import Image,ImageTk
 
 def center_window(app, width, height):
     screen_width = app.winfo_screenwidth()
@@ -12,11 +12,13 @@ def center_window(app, width, height):
     y_position = (screen_height - height) // 2
 
     app.geometry(f"{width}x{height}+{x_position}+{y_position}")
+    customtkinter.set_appearance_mode("dark")
 
 
 def create_boxes():
     app = customtkinter.CTk()
     app.title("Feedback Form")
+
 
     def save_feedback():
         warning.configure(text="")
@@ -61,11 +63,40 @@ def create_boxes():
     feedback_options = ["Excellent", "Good", "Average", "Poor"]
     feedback_dropdown = customtkinter.CTkComboBox(app,values=feedback_options,width=150)
     feedback_dropdown.grid(row=3, column=3, padx=10, pady=5)
+    
 
-    save_button = customtkinter.CTkButton(app, text="Submit", command=save_feedback)
+    save_button = customtkinter.CTkButton(app, text="Submit", command=save_feedback,hover_color="green")
     save_button.grid(row=4, column=3,pady=10)
+    
+    def light_mode():
+        
+        customtkinter.set_appearance_mode("light") 
+
+        light=ImageTk.PhotoImage(Image.open('D:\Desktop Application\Feedback_System\icons\light_light.png').resize((20,20),Image.BICUBIC))
+        dark=ImageTk.PhotoImage(Image.open('D:\Desktop Application\Feedback_System\icons\light_dark.png').resize((20,20),Image.BICUBIC))
+        
+        light_theme.configure(image=light)
+        dark_theme.configure(image=dark)
+        
+    def dark_mode():
+        
+        customtkinter.set_appearance_mode("dark")
+
+        light = ImageTk.PhotoImage(Image.open('D:\Desktop Application\Feedback_System\icons\light_light.png').resize((20,20),Image.BICUBIC))
+        dark = ImageTk.PhotoImage(Image.open('D:\Desktop Application\Feedback_System\icons\light_dark.png').resize((20,20),Image.BICUBIC))
+
+        light_theme.configure(image=light)
+        dark_theme.configure(image=dark)
+
+    light = ImageTk.PhotoImage(Image.open('D:\Desktop Application\Feedback_System\icons\/light_light.png').resize((20,20),Image.BICUBIC))
+    light_theme = customtkinter.CTkButton(app,image=light ,text='', command=light_mode,width=30)
+    light_theme.grid(row=0, column=4,pady=10)
+
+    dark = ImageTk.PhotoImage(Image.open('D:\Desktop Application\Feedback_System\icons\light_dark.png').resize((20,20),Image.BICUBIC))
+    dark_theme = customtkinter.CTkButton(app,image=dark,text='',command=dark_mode,width=30)
+    dark_theme.grid(row=0, column=5,pady=10,padx=10)
 
 
-    center_window(app, 600, 300)
+    center_window(app, 650, 300)
     app.mainloop()
 create_boxes()
